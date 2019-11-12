@@ -1,7 +1,7 @@
 const sql = require("../mssqlConnector")
 const mssql = require('mssql');
 
-module.exports.transactionVirman = async (customerID, ekNo, ReceiverekNo, Quantity) => {
+module.exports.transactionVirman = async (customerID, ekNo, ReceiverekNo, Quantity,type) => {
 
     const pool = await sql.getConnection();
     try {
@@ -11,7 +11,7 @@ module.exports.transactionVirman = async (customerID, ekNo, ReceiverekNo, Quanti
             .input('recipientID', mssql.NVarChar, customerID)
             .input('recipientEkNo', mssql.NVarChar, ReceiverekNo)
             .input('Quantity', mssql.Money, Quantity)
-            .input('transactionType', mssql.Int, 0)
+            .input('transactionType', mssql.NVarChar, type)
             .input('transactionApp', mssql.NVarChar, 'Web')
             .execute('sp_Transaction')
         return { status: 200, message: "success" };
@@ -20,7 +20,7 @@ module.exports.transactionVirman = async (customerID, ekNo, ReceiverekNo, Quanti
     }
 }
 
-module.exports.transactionHavale = async (customerID, ekNo, ReceiverCustomerID, ReceiverekNo, Quantity) => {
+module.exports.transactionHavale = async (customerID, ekNo, ReceiverCustomerID, ReceiverekNo, Quantity,type) => {
 
     const pool = await sql.getConnection();
     try {
@@ -30,7 +30,7 @@ module.exports.transactionHavale = async (customerID, ekNo, ReceiverCustomerID, 
         .input('recipientID', mssql.NVarChar, ReceiverCustomerID)
         .input('recipientEkNo', mssql.NVarChar, ReceiverekNo)
         .input('Quantity', mssql.Money, Quantity)
-        .input('transactionType', mssql.Int, 1)
+        .input('transactionType', mssql.NVarChar, type)
         .input('transactionApp', mssql.NVarChar, 'Web')
         .execute('sp_Transaction')
         return { status: 200, message: "success" };
@@ -42,5 +42,11 @@ module.exports.transactionHavale = async (customerID, ekNo, ReceiverCustomerID, 
 module.exports.query = async () => {
     const pool = await sql.getConnection();
     let result = await pool.query('select * from HgsTransaction')
+    return result;
+}
+
+module.exports.BankTransaction = async () => {
+    const pool = await sql.getConnection();
+    let result = await pool.query('select * from TransactionTable')
     return result;
 }

@@ -15,7 +15,7 @@ const config =
 {
     "user": 'YazilimBakimi', //değiştir
     "password": 'yazilim123', //değiştir
-    "server": '10.138.134.183', //localhost
+    "server": '192.168.43.10', //localhost
     "database": 'Bank', 
     "port": 1499,    //1433
     "dialect": "mssql",

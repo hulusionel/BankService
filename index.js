@@ -5,7 +5,7 @@ const auth = require('./router/auth');
 const customers = require('./router/customers');
 const payment = require('./router/payment');
 const hgs = require('./router/hgs');
-//const transaction = require('./router/transaction');
+const transaction = require('./router/transaction');
 
 const port = process.env.PORT || 3000
 var cors = require('cors');
@@ -31,7 +31,7 @@ app.use('/api/customer', customers); //müşteri işlemleri (bilgi güncelleme, 
 app.use('/api/account', account); //hesap işlemleri( hesap açma, para çekme/yükleme)
 app.use('/api/payment', payment);
 app.use('/api/hgs', hgs)
-//app.use('/api/transaction',transaction);
+app.use('/api/transaction',transaction);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}!`)

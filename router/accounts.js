@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const accountTransactions = require("../Database/query/accountTransactions");
 const customerTransactions = require("../Database/query/customerTransactions");
+const transactionTable = require("../Database/query/transactionTable");
 
 
 //tokeni verilen kullanıcının hesapları listelendi
@@ -26,6 +27,11 @@ router.post('/newAccount', async (req, res) => {
 router.post('/selectAccount', async (req, res) => {
   const user = await customerTransactions.findByTC(req.decode) //kişiyi buldu
   const quantity = await accountTransactions.insertMoneySelectAccount(user.CustomerID, req.body.Quantity, req.body.ekNo) //customerID ve eklenecek para gönderildi
+  const account = await accountTransactions.selectAccount(user.CustomerID, req.body.ekNo)
+  console.log(account.recordsets[0][0])
+  const transaction = await transactionTable.transactionVirman(user.CustomerID, req.body.ekNo,req.body.ekNo,account.recordsets[0][0].Quantity,'Load')
+  console.log(transaction)
+
   res.json(quantity);
 })
 
@@ -38,6 +44,9 @@ router.post('/withdraw', async (req, res) => {
   const account = await accountTransactions.selectAccount(user.CustomerID, req.body.ekNo) //para çekilecek hesap bulundu
   if (account.recordsets[0][0].Quantity >= req.body.Quantity) {
     const quantity = await accountTransactions.withdraw(user.CustomerID, req.body.ekNo, req.body.Quantity)
+  const currentQuantity = account.recordsets[0][0].Quantity - req.body.Quantity
+  const transaction = await transactionTable.transactionVirman(user.CustomerID, req.body.ekNo,req.body.ekNo,currentQuantity,'Withdraw')
+
     res.json(quantity);
   } else {
     res.json({ status: 500, message: "Bakiyeniz yetersiz!!" })

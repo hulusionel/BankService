@@ -16,7 +16,7 @@ router.post('/virman', async (req, res) => {
     if (receiverAccount.recordsets[0][0] != null) {
         if (account.recordsets[0][0].Quantity >= req.body.Quantity) {
             const virman = await paymentTransactions.virman(user.CustomerID, req.body.ekNo, req.body.Receiver_ekNo, req.body.Quantity)
-            const transaction = await transactionTable.transactionVirman(user.CustomerID, req.body.ekNo, req.body.Receiver_ekNo, req.body.Quantity)
+            const transaction = await transactionTable.transactionVirman(user.CustomerID, req.body.ekNo, req.body.Receiver_ekNo, req.body.Quantity,'Virman')
             const account = await accountTransactions.selectAccount(user.CustomerID, req.body.ekNo)
             res.json(account.recordsets[0][0]);
         } else {
@@ -41,7 +41,7 @@ router.post('/havale', async (req, res) => {
             if (Receiveraccount.recordsets[0][0] != null) {
                 if (account.recordsets[0][0].Quantity >= req.body.Quantity) {
                      const havale = await paymentTransactions.havale(user.CustomerID, req.body.ekNo, req.body.Receiver_CustomerID, req.body.Receiver_ekNo, req.body.Quantity)
-                     const transaction = await transactionTable.transactionHavale(user.CustomerID, req.body.ekNo, req.body.Receiver_CustomerID, req.body.Receiver_ekNo, req.body.Quantity)
+                     const transaction = await transactionTable.transactionHavale(user.CustomerID, req.body.ekNo, req.body.Receiver_CustomerID, req.body.Receiver_ekNo, req.body.Quantity,'Havale')
                      const account = await accountTransactions.selectAccount(user.CustomerID, req.body.ekNo)
                     res.json({CustomerID:user.CustomerID});
                 } else {

@@ -7,4 +7,10 @@ router.get('/', async (req, res) => {
     res.json(user.recordsets[0]);
 })
 
+
+router.get('/bank', async (req, res) => {
+    const user = await transactionTable.BankTransaction()
+    res.json(user);
+})
+
 module.exports = router;

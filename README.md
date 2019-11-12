@@ -28,3 +28,12 @@
 |/api/payment/virman   | `POST`      | { "Quantity" : 5, "ekNo":1001, "Receiver_ekNo":1001}  |Sends money between accounts. |
 |/api/payment/havale   | `POST`      | { "Quantity" : 5, "ekNo":1001, "Receiver_CustomerID":100006 ,"Receiver_ekNo":1001}       |Send money to other users' account. |
 
+
+# Hgs
+
+| Route          | HTTP       | POST body     |    Description     |
+| :---           |     ---    |     :---      |        :---        |
+|/api/hgs/insert   | `POST`   | {"ekNo":1001}  | |
+|/api/hgs/load   | `POST`     | { "Quantity" : 5, "ekNo":1001}       | |
+|/api/hgs/withdraw   | `POST` |     | |
+|/api/hgs/query   | `POST`    |     | |
